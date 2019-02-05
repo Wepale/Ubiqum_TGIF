@@ -34,13 +34,67 @@ const createTd = (info, trID) => {
   document.getElementById(trID).appendChild(newTd);
 }
 
-let membersList = senateData.results[0].members; //Array with all Senate Members
-console.log(membersList);
-let tableTitles = ["Name", "Party", "State", "Years in Oficce", "% Votes w/ Party"]
-createTr("tableTitles", "senate_data");
-for (title of tableTitles) {
-  createTh(title, "tableTitles");
+const createFullname = (namesArray) => {
+  if (namesArray.length === 3) {
+    for ([i, value] of namesArray.entries()) {
+      if (value === null) namesArray[i] = "";
+    }
+    return `${namesArray[0]} ${namesArray[1]} ${namesArray[2]}`;
+
+  } else if (namesArray.length === 2) {
+    for (name of namesArray) {
+      if (!name) { name = ""};
+    }
+    return `${namesArray[0]} ${namesArray[1]}`;
+
+  } else if (namesArray.length === 1) {
+
+    return !namesArray[0] ? namesArray[0] = "No name" : namesArray[0];
+  }
 }
+
+let membersList = senateData.results[0].members; //Array with all Senate Members
+//console.log(membersList);
+const tableTitles = ["Name", "Party", "State", "Years in Oficce", "% Votes w/ Party"];
+//const infoToShow = "first_name, middle_name, last_name, party, seniority, votes_with_party_pct";
+const arrayInfo = ["first_name", "middle_name", "last_name", "party", "seniority", "votes_with_party_pct"]
+console.log(arrayInfo.join(", "));
+
+
+
+const createTable = (membersArr, tableTitlesArr, info) => {
+  let dynamicID = 1;
+  createTr("trTitle", "senate_data");
+  for (let title of tableTitlesArr) {
+    createTh(title, "trTitle");
+  }
+  for (member of membersArr) {
+    eval(`var {${info.join(", ")}} = member`); //let is not possible because of scope problems
+    let id = `member${++dynamicID}`;
+    createTr(id, "senate_data");
+    for (variable of info) {
+      createTd(eval(variable), id);
+
+    }
+
+
+
+    // console.log(first_name);
+    // console.log(middle_name);
+    // console.log(last_name);
+    // console.log(party);
+    // console.log(seniority);
+    // console.log(votes_with_party_pct);
+  }
+
+}
+let apellido = null;
+console.log(createFullname(["Yeray", apellido, "Martin"]));
+console.log(createFullname(["Yeray", "Rodriguez", null]));
+console.log(createFullname([null, "Rodriguez", "Martin" ]));
+console.log(createFullname(["Yeray", null]));
+console.log(createFullname([null]));
+console.log(createTable(membersList, tableTitles, arrayInfo));
 
 
 
