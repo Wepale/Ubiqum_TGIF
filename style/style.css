@@ -1,6 +1,140 @@
-/* table{
-  border-collapse: collapse;
+html {
+    overflow-y: scroll;
 }
-table, th, td{
-  border: 2px solid black;
-} */
+.container {
+  max-width: 100%;
+  width: 80%;
+}
+
+.table th, td {
+  text-align: center;
+}
+
+a {
+  color: #6c757d;
+  font-weight: bold
+}
+
+a:hover {
+  color: #d49f34;
+}
+
+.footer {
+  background-color: #6c757d;
+  color: white;
+  margin: 3em 0 2em 0;
+  padding: 2em;
+  text-align: center;
+}
+
+.nav {
+  background-color: #6c757d;
+}
+
+.nav-link {
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.topHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.topHeaderLeft {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.topHeaderRight {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.logo {
+  width: 25%;
+}
+
+.emailIcon {
+  width: 7%;
+}
+
+.makeRow {
+  align-items: baseline;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.select {
+  display: flex;
+  justify-content: flex-start;
+  width: 50%;
+}
+
+.party {
+  width: 15%;
+}
+
+.check {
+  align-items: baseline;
+  display: flex;
+  justify-content: space-around;
+  width: 46%;
+}
+
+input {
+  display: none;
+}
+
+.label {
+  background: #6c757d;
+  border: 2px solid #6c757d;
+  border-radius: 4px;
+  color: white;
+  padding: 2%;
+}
+
+.label:hover {
+  background: #d49f34;
+  border: 3px solid black;
+}
+
+input:checked+label {
+  background: #d49f34;
+  border: 3px solid black;
+}
+
+.state {
+  align-items: baseline;
+  display: flex;
+  justify-content: space-around;
+  width: 14%;
+}
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 2s;
+}
+
+.active, .accordion:hover {
+  background-color: #ccc;
+}
+
+.panel {
+  padding: 0 18px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.8s ease-out;
+}
