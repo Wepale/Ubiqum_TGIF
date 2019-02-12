@@ -22,6 +22,7 @@
   grid-row-gap: 1em;
   grid-template-columns: 1fr;
   margin-left: 1em;
+  align-content: flex-start;
 }
 
 .mainTitle {
@@ -76,6 +77,7 @@ a {
 
 a:hover {
   color: #d49f34;
+  text-shadow: 1px 1px grey;
 }
 
 
