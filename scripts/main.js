@@ -39,6 +39,7 @@ const filterByState = (membersArr, state) => {
  *       the keys of the JSON letter by letter.
  *@param tableID the id of the table we want to change
  */
+
 const changeTable = (membersArr, tableTitlesArr, keysArr, table) => {
   while (table.hasChildNodes()) {
     table.removeChild(table.firstChild);
@@ -74,6 +75,7 @@ const filterAll = (membersArr) => {
  *@param clickID the ID of the element in which the user clicks
  *@param accordionID the ID of the element that achieves the accordion effect
  */
+
 const makeAccordion = (clickID = "accordion", accordionID = "panel") => {
   let myButton = document.getElementById("accordion");
   myButton.classList.toggle("active");
@@ -85,13 +87,10 @@ const makeAccordion = (clickID = "accordion", accordionID = "panel") => {
   }
 };
 
-
-
-
 /////////////Execute JS///////////////
 
 /****************************************************************************
-                    MODIFY THIS ARRAYS TO CHANGE THE TABLES
+                    MODIFY THIS ARRAYS TO CHANGE THE TABLE
 
 The position of the elements in Titles arrays must be relative to the position of
 elements of Keys array
@@ -112,16 +111,3 @@ createStateSelection(memberList, "state");
 //Create the inital table
 let table1 = document.getElementById("table1");
 createTable(memberList, mainTableTitles, mainTableKeys, table1);
-
-
-// //Array with our table titles.
-// const tableTitles2 = ["Name", "Party", "Office", "Years in Oficce", "% Votes w/ Party", "Total Votes", "Next election", "Birth"];
-//
-// //Array with our Keys from JSON
-// const arrayInfo2 = ["first_name", "middle_name", "last_name", "party", "office", "seniority", "votes_with_party_pct", "total_votes", "next_election", "date_of_birth"];
-//
-// //Array with our table titles.
-// const tableTitles3 = ["Party", "Office", "Years in Oficce", "% Votes w/ Party", "Last Update"];
-//
-// //Array with our Keys from JSON
-// const arrayInfo3 = ["party", "office", "seniority", "votes_with_party_pct", "last_updated"];

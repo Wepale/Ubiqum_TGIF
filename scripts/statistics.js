@@ -87,9 +87,8 @@ const numberOfMembersByParty = (membersArr, party) => {
  */
 
 const votingPartyAverage = (membersArr, party) => {
-  const filterMembers = getMembersOfParty(membersArr, party);
-  for (member of filterMembers) {
-    let votesResults = filterMembers.map(member => member.votes_with_party_pct) //return an array whit the value of a key of all the objects
+  for (member of membersArr) {
+    let votesResults = membersArr.map(member => member.votes_with_party_pct) //return an array whit the value of a key of all the objects
     if (votesResults.length) {
       return (votesResults.reduce((vote1, vote2) => vote1 + vote2) / votesResults.length).toFixed(2);
     }
@@ -134,7 +133,12 @@ const orderMembersByKeyValue = (membersArr, key) => {
  */
 
 const topOrLowestMembers = (membersArr, percent, firstOrLast, key) => {
-  let membersToGet = Math.round(membersArr.length * (percent / 100));
+  let membersToGet = 0;
+  if (membersArr.length < 10){
+    membersToGet = 1;
+  } else {
+    membersToGet = Math.round(membersArr.length * (percent / 100));
+  }
   if (firstOrLast === "last") {
     membersArr.reverse()
   }
@@ -149,11 +153,6 @@ const topOrLowestMembers = (membersArr, percent, firstOrLast, key) => {
 };
 
 const setStatisticsValues = (membersArr, statisticsByPartyArr) => {
-  for (member of membersArr) {
-    if (!("votes_with_party_pct" in member)) {
-      membersArr.splice(membersArr.indexOf(member), 1);
-    }
-  }
   let party = null;
   for (element of statisticsByPartyArr) {
     switch (element.idParty) {
@@ -170,15 +169,28 @@ const setStatisticsValues = (membersArr, statisticsByPartyArr) => {
       default:
         party = "All Partys";
     }
-    element.numbersOfReps = numberOfMembersByParty(membersArr, party);
-    element.averageVoteParty = votingPartyAverage(membersArr, party) + "%";
-    element.leastMissedVotesMembers = topOrLowestMembers(orderMembersByKeyValue(membersArr, "missed_votes_pct"), 10, "first", "missed_votes_pct");
-    element.mostMissedVotesMembers = topOrLowestMembers(orderMembersByKeyValue(membersArr, "missed_votes_pct"), 10, "last", "missed_votes_pct");
-    element.leastLoyalMembers = topOrLowestMembers(orderMembersByKeyValue(membersArr, "votes_with_party_pct"), 10, "first", "votes_with_party_pct");
-    element.mostLoyalMembers = topOrLowestMembers(orderMembersByKeyValue(membersArr, "votes_with_party_pct"), 10, "last", "votes_with_party_pct");
+    let membersArrayByParty = getMembersOfParty(membersArr, party)
+    if (getMembersOfParty.length) {
+      element.numbersOfReps = membersArrayByParty.length
+    } else {
+      element.numbersOfReps = 0;
+    }
 
-    if (element.averageVoteParty === undefined) {
-      element.averageVoteParty = 0;
+    for (member of membersArrayByParty) {
+      if (!("votes_with_party_pct" in member)) {
+        membersArrayByParty.splice(membersArrayByParty.indexOf(member), 1);
+      }
+    }
+    console.log(membersArrayByParty);
+
+    element.averageVoteParty = votingPartyAverage(membersArrayByParty, party) + "%";
+    element.leastMissedVotesMembers = topOrLowestMembers(orderMembersByKeyValue(membersArrayByParty, "missed_votes_pct"), 10, "first", "missed_votes_pct");
+    element.mostMissedVotesMembers = topOrLowestMembers(orderMembersByKeyValue(membersArrayByParty, "missed_votes_pct"), 10, "last", "missed_votes_pct");
+    element.leastLoyalMembers = topOrLowestMembers(orderMembersByKeyValue(membersArrayByParty, "votes_with_party_pct"), 10, "first", "votes_with_party_pct");
+    element.mostLoyalMembers = topOrLowestMembers(orderMembersByKeyValue(membersArrayByParty, "votes_with_party_pct"), 10, "last", "votes_with_party_pct");
+
+    if (element.numbersOfReps === 0) {
+      element.averageVoteParty = 0 + "%";
     }
   }
 }

@@ -1,73 +1,15 @@
 .allPage {
   display: grid;
-  grid-template-columns: 1fr 4fr 0.1fr;
+  grid-template-columns: 0.2fr 1fr 4fr 0.2fr;
   grid-gap: 1em;
-  background-color: currentColor;
+  background-color: #485563;
+  font-family: 'Playfair Display', serif;
 }
 
 .allPage>div {
-  background-color: silver;
+  background-color: whitesmoke;
   padding: 1em;
   border-radius: 1em;
-}
-
-.table th, td {
-  text-align: center;
-}
-
-.leftPanel {
-  grid-column: 1/2;
-  grid-row: 4/5;
-  display: grid;
-  grid-row-gap: 1em;
-  grid-template-columns: 1fr;
-  margin-left: 1em;
-  align-content: flex-start;
-}
-
-.mainTitle {
-  grid-column: 2/3;
-  grid-row: 1/2;
-  margin-top: 1em;
-  background-image: url("../images/capitol.jpg");
-  background-size: cover;
-  color: white;
-  background-position: top;
-}
-
-.mainNav {
-  grid-column: 2/3;
-  grid-row: 2/3;
-  background-color: #6c757d;
-  background-image: url("../images/capitol.jpg");
-  background-size: cover;
-  background-position: 2em;
-}
-
-.introduction {
-  grid-column: 2/3;
-  grid-row: 3/4;
-  background-image: url("../images/capitol.jpg");
-  background-size: cover;
-  background-position: 2em -21em;
-  color: white;
-  font-weight: bold;
-  text-shadow: 2px 2px black;
-}
-
-.mainTable {
-  grid-column: 2/3;
-  grid-row: 4/6;
-}
-
-.footer {
-  grid-column: 1/4;
-  grid-row: 6/7;
-  background-color: silver;
-  color: white;
-  margin: 1em 3em 3em 3em;
-  padding: 2em;
-  text-align: center;
 }
 
 a {
@@ -77,16 +19,79 @@ a {
 
 a:hover {
   color: #d49f34;
-  text-shadow: 1px 1px grey;
+  /* text-shadow: 1px 1px grey; */
 }
 
-
-.nav {
-  background-color: #red;
+.topHeaderRight a {
+  color: white;
 }
 
-.navDiv {
-  /* background-color: black; */
+.topHeaderRight a:hover {
+  color: #d49f34;
+}
+
+.table {
+  background-color: white;
+}
+
+.table th, td {
+  text-align: center;
+}
+
+.leftPanel {
+  grid-column: 2/3;
+  grid-row: 4/5;
+  display: grid;
+  grid-row-gap: 1em;
+  grid-template-columns: 1fr;
+  align-content: flex-start;
+}
+
+.mainTitle {
+  grid-column: 2/4;
+  grid-row: 1/2;
+  margin-top: 1em;
+  background-image: url("../images/capitol.jpg");
+  background-size: cover;
+  color: white;
+  background-position: 20em top;
+}
+
+.mainNav {
+  grid-column: 2/4;
+  grid-row: 2/3;
+  background-color: #6c757d;
+  background-image: url("../images/capitol.jpg");
+  background-size: cover;
+  background-position: 20em -10em;
+}
+
+.introduction {
+  grid-column: 2/4;
+  grid-row: 3/4;
+  background-image: url("../images/capitol.jpg");
+  background-size: cover;
+  background-position: 20em 29em;
+  color: white;
+  font-weight: bold;
+  text-shadow: 2px 2px black;
+}
+
+.mainTable {
+  grid-column: 3/4;
+  grid-row: 4/6;
+}
+
+.footer {
+  grid-column: 2/4;
+  grid-row: 6/7;
+  background-color: black;
+  color: white;
+  margin: 1em 0;
+  padding: 2em;
+  text-align: center;
+  font-weight: bolder;
+  border-radius: 1em;
 }
 
 .nav-link {
@@ -101,10 +106,10 @@ a:hover {
 }
 
 .topHeaderLeft {
-  align-items: center;
   display: flex;
+  align-items: center;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 15%;
 }
 
@@ -112,7 +117,7 @@ a:hover {
   align-items: center;
   display: flex;
   width: 12%;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .logo {
@@ -168,7 +173,7 @@ input+label{
 }
 
 input+label:hover {
-  background: grey;
+  background: silver;
   border: 3px solid black;
 }
 
