@@ -2,66 +2,92 @@
 <html lang="en">
 
 <head>
+  <meta charset=UTF-8>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="style/style.css">
 </head>
 
 <body>
-  <nav>
+  <div class="allPage">
+    <div class="mainTitle">
+      <header>
+        <div class="topHeader">
+          <div class="topHeaderLeft">
+            <img src="images/standard.png" alt="Logo" class="logo">
+            <h1>TGIF</h1>
+          </div>
+          <div class="topHeaderRight">
+            <img src="images/email_icon_white.png" alt="Contact icon" class="emailIcon">
+            <a href="mailto:info@tgif.net">info@tgif.net</a>
+          </div>
+        </div>
+    </div>
+    <div class="mainNav">
+      <div class="navDiv">
+        <nav>
+          <ul class="nav">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Congress 113</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="senate.html">Senate</a>
+                <a class="dropdown-item" href="houseOfRepresentatives.html">House</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Attendance</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="attendance_senate.html">Senate</a>
+                <a class="dropdown-item" href="attendance_house.html">House</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Party Loyalty</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="party_loyalty_senate.html">Senate</a>
+                <a class="dropdown-item" href="party_loyalty_house.html">House</a>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    </header>
+    <!--Table container-->
     <div>
       <div>
-        <a href="#">TGIF</a>
+        <h2>Party Loyalty</h2>
+        <p>Those who consider themselves to be strong partisans, strong Democrats and strong Republicans respectively, tend to be the most faithful in voting for their party's nominee for office and legislation that backs their party's agenda. </p>
       </div>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li>
-          <a href="#">Congress 113</a>
-          <ul>
-            <li><a href="#">Senate</a></li>
-            <li><a href="#">House</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="#">Attendance</a></li>
-        <ul>
-          <li><a href="#">Senate</a></li>
-          <li><a href="#">House</a></li>
-        </ul>
-        </li>
-        <li>
-          <a href="#">Party Loyalty</a>
-          <ul>
-            <li><a href="#">Senate</a></li>
-            <li><a href="#">House</a></li>
-          </ul>
-        </li>
-      </ul>
+      <div>
+        <h2>Senate at a glance</h2>
+        <table id="table1" class="table table-striped table-hover"></table>
+      </div>
+      <div>
+        <h2>Least Loyal (Bottom 10% of Party)</h2>
+        <table id="table2" class="table table-striped table-hover"></table>
+      </div>
+      <div>
+        <h2>Most Loyal (Top 10% of Party)</h2>
+        <table id="table3" class="table table-striped table-hover"></table>
+      </div>
     </div>
-  </nav>
-
-
-  <header>
-    <div>
-    </div>
-  </header>
-  <!--Table container-->
-  <div>
-    <h2>Attendance</h2>
-    <p>The Constitution specifies that a majority of members constitutes a quorum to do business in each house. Representatives and senators rarely force the presence of a quorum by demanding quorum calls; thus, in most cases, debates continue even
-      if a majority is not present.</p>
-
-    <p>The Senate uses roll-call votes; a clerk calls out the names of all the senators, each senator stating "aye" or "no" when his or her name is announced. The House reserves roll-call votes for the most formal matters, as a roll-call of all 435
-      representatives takes quite some time; normally, members vote by electronic device. In the case of a tie, the motion in question fails. In the Senate, the Vice President may (if present) cast the tiebreaking vote.</p>
-
-    <h2>House at a glance</h2>
-    <tableid="glance_table" class="table table-striped table-hover"></table>
-
-    <h2>Least Engaged (Bottom 10% Attendance)</h2>
-    <tableid="bottom_attendance_table" class="table table-striped table-hover"></table>
-
-    <h2>Most Engaged (Top 10% Attendance)</h2>
-    <tableid="top_attendance_table" class="table table-striped table-hover"></table>
+    <footer class="footer">
+      <div>
+        <p>© 2019 TGIF | All Rights Reserved</p>
+      </div>
+    </footer>
 
   </div>
+  <script src="dataFiles/115_house.js"></script>
+  <script src="scripts/table.js"></script>
+  <script src="scripts/statistics.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 </body>
 
 </html>

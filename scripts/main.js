@@ -39,12 +39,11 @@ const filterByState = (membersArr, state) => {
  *       the keys of the JSON letter by letter.
  *@param tableID the id of the table we want to change
  */
-const changeTable = (membersArr, tableTitlesArr, keysArr, tableID, theadID, tbodyID, trTitleID) => {
-  let table = document.getElementById(tableID)
+const changeTable = (membersArr, tableTitlesArr, keysArr, table) => {
   while (table.hasChildNodes()) {
     table.removeChild(table.firstChild);
   }
-  createTable(membersArr, mainTableTitles, keysArr, tableID, theadID, tbodyID, trTitleID);
+  createTable(membersArr, tableTitlesArr, keysArr, table);
 };
 
 /*
@@ -65,7 +64,7 @@ const filterAll = (membersArr) => {
   let opS = document.getElementById("state");
   helpArr = filterByState(helpArr, opS.options[opS.selectedIndex].value);
   //Delete table and create the new one
-  changeTable(helpArr, mainTableTitles, mainTableKeys, "table1", "th1", "tb1", "tr1")
+  changeTable(helpArr, mainTableTitles, mainTableKeys, table1);
 }
 
 /*
@@ -111,7 +110,8 @@ const mainTableKeys = ["first_name", "middle_name", "last_name", "party", "state
 createStateSelection(memberList, "state");
 
 //Create the inital table
-createTable(memberList, mainTableTitles, mainTableKeys, "table1", "th1", "tb1", "tr1");
+let table1 = document.getElementById("table1");
+createTable(memberList, mainTableTitles, mainTableKeys, table1);
 
 
 // //Array with our table titles.

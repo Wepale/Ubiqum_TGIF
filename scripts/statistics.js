@@ -88,12 +88,17 @@ const numberOfMembersByParty = (membersArr, party) => {
 
 const votingPartyAverage = (membersArr, party) => {
   const filterMembers = getMembersOfParty(membersArr, party);
-  let votesResults = filterMembers.map(member => member.votes_with_party_pct); //return an array whit the value of a key of all the objects
-  return votesResults.reduce((vote1, vote2) => vote1 + vote2) / votesResults.length;
+  for (member of filterMembers) {
+    let votesResults = filterMembers.map(member => member.votes_with_party_pct) //return an array whit the value of a key of all the objects
+    if (votesResults.length) {
+      return (votesResults.reduce((vote1, vote2) => vote1 + vote2) / votesResults.length).toFixed(2);
+    }
+  }
+
 
   //The same but whit-out variables
   /*
-   return getMembersOfParty(membersArr, party).map(member => member.votes_with_party_pct).reduce((vote1, vote2) => vote1 + vote2)/getMembersOfParty(membersArr, party).length;
+   return (getMembersOfParty(membersArr, party).map(member => member.votes_with_party_pct).reduce((vote1, vote2) => vote1 + vote2)/getMembersOfParty(membersArr, party).length).toFixed(2);
   */
 };
 
@@ -144,6 +149,11 @@ const topOrLowestMembers = (membersArr, percent, firstOrLast, key) => {
 };
 
 const setStatisticsValues = (membersArr, statisticsByPartyArr) => {
+  for (member of membersArr) {
+    if (!("votes_with_party_pct" in member)) {
+      membersArr.splice(membersArr.indexOf(member), 1);
+    }
+  }
   let party = null;
   for (element of statisticsByPartyArr) {
     switch (element.idParty) {
@@ -160,12 +170,16 @@ const setStatisticsValues = (membersArr, statisticsByPartyArr) => {
       default:
         party = "All Partys";
     }
-      element.numbersOfReps = numberOfMembersByParty(membersArr, party);
-      element.averageVoteParty = votingPartyAverage(membersArr, party);
-      element.leastMissedVotesMembers = topOrLowestMembers(orderMembersByKeyValue(membersArr, "missed_votes"), 10, "first", "missed_votes");
-      element.mostMissedVotesMembers = topOrLowestMembers(orderMembersByKeyValue(membersArr, "missed_votes"), 10, "last", "missed_votes");
-      element.leastLoyalMembers = topOrLowestMembers(orderMembersByKeyValue(membersArr, "votes_with_party_pct"), 10, "first", "votes_with_party_pct");
-      element.mostLoyalMembers = topOrLowestMembers(orderMembersByKeyValue(membersArr, "votes_with_party_pct"), 10, "last", "votes_with_party_pct");
+    element.numbersOfReps = numberOfMembersByParty(membersArr, party);
+    element.averageVoteParty = votingPartyAverage(membersArr, party) + "%";
+    element.leastMissedVotesMembers = topOrLowestMembers(orderMembersByKeyValue(membersArr, "missed_votes_pct"), 10, "first", "missed_votes_pct");
+    element.mostMissedVotesMembers = topOrLowestMembers(orderMembersByKeyValue(membersArr, "missed_votes_pct"), 10, "last", "missed_votes_pct");
+    element.leastLoyalMembers = topOrLowestMembers(orderMembersByKeyValue(membersArr, "votes_with_party_pct"), 10, "first", "votes_with_party_pct");
+    element.mostLoyalMembers = topOrLowestMembers(orderMembersByKeyValue(membersArr, "votes_with_party_pct"), 10, "last", "votes_with_party_pct");
+
+    if (element.averageVoteParty === undefined) {
+      element.averageVoteParty = 0;
+    }
   }
 }
 
@@ -186,6 +200,7 @@ const loyalTableTitles = ["Name", "No. Party Votes", "% Party Votes"]
 const loyalTableKeys = ["first_name", "middle_name", "last_name", "total_votes", "votes_with_party_pct"];
 
 // Set values for statistics onject
+console.log(memberList);
 setStatisticsValues(memberList, statistics.partys);
 
 //Last object in the array
@@ -207,17 +222,25 @@ console.log(topMembersVotes);
 console.log(topMembersMostLoyal);
 console.log(topMembersLessLoyal);
 
+let table1 = document.getElementById("table1");
+let table2 = document.getElementById("table2");
+let table3 = document.getElementById("table3");
+
 //Create glance table
-createTable(statistics.partys, atGlanceTableTitles, atGlanceTableKeys, "table1", "th1", "tb1", "tr1");
+createTable(statistics.partys, atGlanceTableTitles, atGlanceTableKeys, table1);
 
-//Create Least Engaged Table
-createTable(topMembersMissedVotes, engagedTableTitles, engagedTableKeys, "table2", "th2", "tb2", "tr2");
+if (window.location.href.includes("party_loyalty_senate.html") || document.URL.includes("party_loyalty_house.html")) {
+  console.log("im here");
+  //Create Least Loyal Table
+  createTable(topMembersLessLoyal, loyalTableTitles, loyalTableKeys, table2);
 
-//Create Most Engaged Table
-createTable(topMembersVotes, engagedTableTitles, engagedTableKeys, "table3", "th3", "tb3", "tr3");
-//
-// //Create Least Loyal Table
-// createTable(topMembersLessLoyal, engagedTableTitles, loyalTableKeys, "table2");
-//
-// // //Create Most Loyal Table
-// createTable(topMembersMostLoyal, engagedTableTitles, loyalTableKeys, "table3");
+  //Create Most Loyal Table
+  createTable(topMembersMostLoyal, loyalTableTitles, loyalTableKeys, table3);
+
+} else {
+  //Create Least Engaged Table
+  createTable(topMembersMissedVotes, engagedTableTitles, engagedTableKeys, table2);
+
+  //Create Most Engaged Table
+  createTable(topMembersVotes, engagedTableTitles, engagedTableKeys, table3);
+}
