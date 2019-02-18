@@ -1,3 +1,79 @@
+let memberList;
+
+// fetch("https://api.propublica.org/congress/v1/115/senate/members.json", {
+//     method: "GET",
+//     dataType: 'json',
+//     headers: {
+//       "X-API-Key": "kBfQKxtZzIQKC80wlPEvDUhKAFxVlBU63svN3B8O"
+//     }
+//   })
+//   .then((res) => {
+//     console.log(res);
+//     if (res.ok) {
+//       return res.json();
+//     }
+//   })
+//   .then((data) => {
+//     memberList = data.results[0].members;
+//     createStateSelection(memberList, "state");
+//     createTable(memberList, mainTableTitles, mainTableKeys, table1);
+//   });
+
+
+// async function getData() {
+//   //await the response of the fetch call
+//   let response = await fetch("https://api.propublica.org/congress/v1/115/senate/members.json", {
+//     method: "GET",
+//     dataType: 'json',
+//     headers: {
+//       "X-API-Key": "kBfQKxtZzIQKC80wlPEvDUhKAFxVlBU63svN3B8O"
+//     }
+//   });
+//   //proceed once the first promise is resolved.
+//   let data = await response.json()
+//   //proceed only when the second promise is resolved
+//   return data;
+// };
+//
+// //call getData function
+// getData().then((data) => {
+//   memberList = data.results[0].members;
+//   createStateSelection(memberList, "state");
+//   createTable(memberList, mainTableTitles, mainTableKeys, table1);
+// });
+
+const getData = async (jsonURL, apiKey) => {
+  //await the response of the fetch call
+  let response = await fetch(jsonURL, {
+    method: "GET",
+    dataType: 'json',
+    headers: {
+      "X-API-Key": apiKey
+    }
+  });
+  //proceed once the first promise is resolved.
+  let data = await response.json()
+  //proceed only when the second promise is resolved
+  return data;
+};
+
+if (window.location.href.includes("senate.html")){
+//call getData function
+getData("https://api.propublica.org/congress/v1/115/senate/members.json", "kBfQKxtZzIQKC80wlPEvDUhKAFxVlBU63svN3B8O").then((data) => {
+  memberList = data.results[0].members;
+  createStateSelection(memberList, "state");
+  createTable(memberList, mainTableTitles, mainTableKeys, table1);
+});
+
+} else {
+  getData("https://api.propublica.org/congress/v1/115/house/members.json", "kBfQKxtZzIQKC80wlPEvDUhKAFxVlBU63svN3B8O").then((data) => {
+    memberList = data.results[0].members;
+    createStateSelection(memberList, "state");
+    createTable(memberList, mainTableTitles, mainTableKeys, table1);
+  });
+}
+
+
 
 /*
  *  Filter the members by partys
@@ -101,13 +177,13 @@ elements of Keys array
 ///MAIN TABLE///    Array with our table titles.
 const mainTableTitles = ["Name", "Party", "State", "Years in Oficce", "% Votes w/ Party"];
 ///MAIN TABLE///    Array with our Keys from JSON
-const mainTableKeys = ["first_name", "middle_name", "last_name", "party", "state", "seniority", "votes_with_party_pct"]
+const mainTableKeys = ["first_name", "middle_name", "last_name", "party", "state", "seniority", "votes_with_party_pct"];
 
 
 
 //Fill the dropdown menu whit all the state on the JSON
-createStateSelection(memberList, "state");
+// createStateSelection(memberList, "state");
 
 //Create the inital table
 let table1 = document.getElementById("table1");
-createTable(memberList, mainTableTitles, mainTableKeys, table1);
+// createTable(memberList, mainTableTitles, mainTableKeys, table1);

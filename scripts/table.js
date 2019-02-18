@@ -1,6 +1,6 @@
 //Array with all Senate Members
-let memberList = senateData.results[0].members;
-console.log(memberList);
+//let memberList = senateData.results[0].members;
+
 /*
  *  Create a new tbody tag
  *

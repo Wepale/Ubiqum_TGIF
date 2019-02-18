@@ -152,6 +152,29 @@ const topOrLowestMembers = (membersArr, percent, firstOrLast, key) => {
   return membersArr.slice(0, membersToGet);
 };
 
+const changeGridRowOnLongest = (element1, element2, rowEnd) => {
+  const parentDiv1 = element1.parentNode;
+  let parentDiv2 = element2.parentNode;
+  if (element1.offsetHeight === element2.offsetHeight){
+    parentDiv1.style.gridRow = `${rowEnd - 1}/${rowEnd};`
+    parentDiv2.style.gridRow = `${rowEnd - 1}/${rowEnd};`
+  } else if (element1.offsetHeight > element2.offsetHeight){
+    parentDiv2.style.gridRow = `${rowEnd - 1}/${rowEnd}`;
+    rowEnd++;
+    parentDiv1.style.gridRow = `${rowEnd - 2}/${rowEnd}`;
+  } else {
+    parentDiv1.style.gridRow = `${rowEnd - 1}/${rowEnd}`;
+    rowEnd++;
+    parentDiv2.style.gridRow = `${rowEnd - 2}/${rowEnd}`;
+  }
+
+    while(parentDiv2.nextElementSibling != null){
+      rowEnd++;
+      parentDiv2.nextElementSibling.style.gridRow = `${rowEnd-1}/${rowEnd}`;
+      parentDiv2 = parentDiv2.nextElementSibling;
+    }
+};
+
 const setStatisticsValues = (membersArr, statisticsByPartyArr) => {
   let party = null;
   for (element of statisticsByPartyArr) {
@@ -170,7 +193,7 @@ const setStatisticsValues = (membersArr, statisticsByPartyArr) => {
         party = "All Partys";
     }
     let membersArrayByParty = getMembersOfParty(membersArr, party)
-    if (getMembersOfParty.length) {
+    if (membersArrayByParty.length) {
       element.numbersOfReps = membersArrayByParty.length
     } else {
       element.numbersOfReps = 0;
@@ -193,7 +216,7 @@ const setStatisticsValues = (membersArr, statisticsByPartyArr) => {
       element.averageVoteParty = 0 + "%";
     }
   }
-}
+};
 
 
 ///AT GLANCE///   Array with our table titles.
@@ -207,7 +230,7 @@ const engagedTableTitles = ["Name", "No. Missed Votes", "% Missed"];
 const engagedTableKeys = ["first_name", "middle_name", "last_name", "missed_votes", "missed_votes_pct"];
 
 ///LOYAL TABLE///   Array with our table titles.
-const loyalTableTitles = ["Name", "No. Party Votes", "% Party Votes"]
+const loyalTableTitles = ["Name", "No. Party Votes", "% Party Votes"];
 ///lOYAL TABLE///   Array with our Keys from JSON
 const loyalTableKeys = ["first_name", "middle_name", "last_name", "total_votes", "votes_with_party_pct"];
 
@@ -256,3 +279,4 @@ if (window.location.href.includes("party_loyalty_senate.html") || document.URL.i
   //Create Most Engaged Table
   createTable(topMembersVotes, engagedTableTitles, engagedTableKeys, table3);
 }
+changeGridRowOnLongest(table2, table3, 6);

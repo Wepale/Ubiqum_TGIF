@@ -13,7 +13,7 @@
 
 <body>
 
-  <div class="allPage">
+  <div id="myVueElement" class="allPage">
     <div class="leftPanel">
       <div class="selectColumn1">
         <button id="accordion" class="accordion" onclick="makeAccordion()">Read More</button>
@@ -70,26 +70,26 @@
       <div class="navDiv">
         <nav>
           <ul class="nav">
-            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="index_vue.html">Home</a></li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Congress 113</a>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="senate.html">Senate</a>
-                <a class="dropdown-item" href="houseOfRepresentatives.html">House</a>
+                <a class="dropdown-item" href="senate_vue.html">Senate</a>
+                <a class="dropdown-item" href="houseOfRepresentatives_vue.html">House</a>
               </div>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Attendance</a>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="attendance_senate.html">Senate</a>
-                <a class="dropdown-item" href="attendance_house.html">House</a>
+                <a class="dropdown-item" href="attendance_senate_vue.html">Senate</a>
+                <a class="dropdown-item" href="attendance_house_vue.html">House</a>
               </div>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Party Loyalty</a>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="party_loyalty_senate.html">Senate</a>
-                <a class="dropdown-item" href="party_loyalty_house.html">House</a>
+                <a class="dropdown-item" href="party_loyalty_senate_vue.html">Senate</a>
+                <a class="dropdown-item" href="party_loyalty_house_vue.html">House</a>
               </div>
             </li>
           </ul>
@@ -116,27 +116,41 @@
             <p>Select by Party:</p>
           </div>
           <div class="check">
-            <input type="checkbox" class="input" name="party" id="checkbox1" onclick="filterAll(memberList)" autocomplete="off" value="R">
-            <label for="checkbox1" class="label">Republican</label>
-            <input type="checkbox" class="input" name="party" id="checkbox2" onclick="filterAll(memberList)" autocomplete="off" value="D">
-            <label for="checkbox2" class="label">Democrat</label>
-            <input type="checkbox" class="input" name="party" id="checkbox3" onclick="filterAll(memberList)" autocomplete="off" value="I">
-            <label for="checkbox3" class="label">Independent</label>
+            <template v-for="item of checkboxData">
+              <input type="checkbox" class="input" name="party" :id="item.relatedChekBox" v-model="partySelected" @change="filterAll(membersConst)" autocomplete="off" :value="item.value">
+              <label :for="item.relatedChekBox" class="label">{{ item.party }}</label>
+            </template>
           </div>
         </div>
 
         <div class="makeRow state">
           <p>Filter by state:</p>
           <div class="dropdown show">
-            <select class="btn btn-secondary" onchange="filterAll(memberList)" id="state">
+            <select class="btn btn-secondary" v-model="stateSelected" @change="filterAll(membersConst)" ref="state">
               <option value="all">ALL</option>
+              <option v-for="state of stateArray" :value="state">{{ state }}</option>
             </select>
           </div>
 
         </div>
       </div>
+      <p>{{ partySelected }}</p>
 
-      <table id="table1" class="table table-striped table-hover"></table>
+      <div v-if="showTable">
+        <table id="table1" class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th v-for="title of mainTableTitles">{{ title }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="member of membersList">
+              <td v-for="key of tableKeysMod"><a v-if="key === 'first_name'" :href="member.url"> {{ joinName(member) }} </a><span v-else-if="key === 'votes_with_party_pct' || key === 'missed_votes_pct'"> {{ `${checkNullValue(member[key])}%` }} </span><span v-else> {{ checkNullValue(member[key]) }} </span></td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- <tablecreation></tablecreation> -->
+      </div>
     </div>
 
     <footer class="footer">
@@ -147,12 +161,12 @@
 
   </div>
 
-  <script src="dataFiles/115_senate.js"></script>
-  <script src="scripts/table.js"></script>
-  <script src="scripts/main.js"></script>
+  <script src="scripts/vue.js"></script>
+  <script src="dataFiles/115_house.js"></script>
+  <script src="scripts/main_vue.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-  </body>
+</body>
 
 </html>
