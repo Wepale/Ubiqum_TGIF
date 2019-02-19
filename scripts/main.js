@@ -1,5 +1,5 @@
 let memberList;
-
+//
 // fetch("https://api.propublica.org/congress/v1/115/senate/members.json", {
 //     method: "GET",
 //     dataType: 'json',
@@ -42,38 +42,50 @@ let memberList;
 //   createTable(memberList, mainTableTitles, mainTableKeys, table1);
 // });
 
-const getData = async (jsonURL, apiKey) => {
-  //await the response of the fetch call
-  let response = await fetch(jsonURL, {
-    method: "GET",
-    dataType: 'json',
-    headers: {
-      "X-API-Key": apiKey
-    }
-  });
-  //proceed once the first promise is resolved.
-  let data = await response.json()
-  //proceed only when the second promise is resolved
-  return data;
-};
+// const getData = async (jsonURL, apiKey) => {
+//   //await the response of the fetch call
+//   let response = await fetch(jsonURL, {
+//     method: "GET",
+//     dataType: 'json',
+//     headers: {
+//       "X-API-Key": apiKey
+//     }
+//   });
+//   //proceed once the first promise is resolved.
+//   let data = await response.json()
+//   //proceed only when the second promise is resolved
+//   return data;
+// };
 
-if (window.location.href.includes("senate.html")){
-//call getData function
-getData("https://api.propublica.org/congress/v1/115/senate/members.json", "kBfQKxtZzIQKC80wlPEvDUhKAFxVlBU63svN3B8O").then((data) => {
-  memberList = data.results[0].members;
-  createStateSelection(memberList, "state");
-  createTable(memberList, mainTableTitles, mainTableKeys, table1);
-});
 
-} else {
-  getData("https://api.propublica.org/congress/v1/115/house/members.json", "kBfQKxtZzIQKC80wlPEvDUhKAFxVlBU63svN3B8O").then((data) => {
-    memberList = data.results[0].members;
-    createStateSelection(memberList, "state");
-    createTable(memberList, mainTableTitles, mainTableKeys, table1);
-  });
+const loadJsonAndCreateTable = () => {
+  if (window.location.href.includes("senate.html")) {
+    //call getData function
+    getData("https://api.propublica.org/congress/v1/115/senate/members.json", "kBfQKxtZzIQKC80wlPEvDUhKAFxVlBU63svN3B8O").then((data) => {
+      memberList = data.results[0].members;
+      createStateSelection(memberList, "state");
+      createTable(memberList, mainTableTitles, mainTableKeys, table1);
+      // makeFixedHeader();
+      let myDivsTables = Array.from(document.getElementsByClassName("loader"));
+      for (myDiv of myDivsTables) {
+        myDiv.classList.remove("loader");
+      }
+    });
+
+  } else {
+    getData("https://api.propublica.org/congress/v1/115/house/members.json", "kBfQKxtZzIQKC80wlPEvDUhKAFxVlBU63svN3B8O").then((data) => {
+      memberList = data.results[0].members;
+      createStateSelection(memberList, "state");
+      createTable(memberList, mainTableTitles, mainTableKeys, table1);
+      // makeFixedHeader();
+      let myDivsTables = Array.from(document.getElementsByClassName("loader"));
+      for (myDiv of myDivsTables) {
+        myDiv.classList.remove("loader");
+      }
+    });
+  }
 }
-
-
+loadJsonAndCreateTable();
 
 /*
  *  Filter the members by partys
@@ -187,3 +199,11 @@ const mainTableKeys = ["first_name", "middle_name", "last_name", "party", "state
 //Create the inital table
 let table1 = document.getElementById("table1");
 // createTable(memberList, mainTableTitles, mainTableKeys, table1);
+
+const makeFixedHeader = () => {
+document.getElementById("wrap").addEventListener("scroll", function() {
+   var translate = "translate(0,"+this.scrollTop+"px)";
+   this.querySelector("thead").style.transform = translate;
+});
+}
+makeFixedHeader();

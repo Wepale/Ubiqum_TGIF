@@ -6,6 +6,17 @@
   font-family: 'Playfair Display', serif;
 }
 
+#wrap {
+  overflow: auto;
+  max-height: 50em;
+}
+
+.table th {
+  background-color: darkgrey;
+  color: white;
+  font-size: 1.2em;
+}
+
 .allPage>div {
   background-color: whitesmoke;
   padding: 1em;
@@ -163,10 +174,9 @@ input {
   color: white;
   padding: 2%;
 } */
-
-input+label{
+input+label {
   background: #6c757d;
-  border: 3px solid black;
+  border: 2px solid black;
   border-radius: 4px;
   color: white;
   padding: 2%;
@@ -174,27 +184,17 @@ input+label{
 
 input+label:hover {
   background: silver;
-  border: 3px solid black;
+  border: 2px solid black;
 }
 
 input:checked+label {
   background: #d49f34;
-  border: 3px solid black;
+  border: 2px solid black;
 }
-/* .label:hover {
-  background: grey;
-  border: 3px solid black;
-} */
-/*
-input:checked+label {
-  background: #d49f34;
-  border: 3px solid black;
-} */
 
-/* input:not(.checked):hover+label{
-  background: grey;
-  border: 3px solid black;
-} */
+.btn:not(:disabled):not(.disabled) {
+  border: 2px solid black;
+}
 
 .state {
   align-items: baseline;
@@ -214,6 +214,8 @@ input:checked+label {
   outline: none;
   font-size: 15px;
   transition: 2s;
+  text-align: center;
+  padding: 0em;
 }
 
 .active, .accordion:hover {
@@ -230,4 +232,33 @@ input:checked+label {
 
 .createUserTable {
   margin-top: 25%;
+}
+
+select option {
+  margin: 40px;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+select:hover {
+  background: red;
+}
+.loader {
+  /* overflow: hidden; */
+  border: 16px solid #a9a9a9;
+  border-radius: 50%;
+  border-top: 16px solid  #d49f34;
+  width: 120px;
+  height: 120px;
+  z-index: 500000000;
+  animation: spin 2s linear infinite;
+  vertical-align: middle;
+  position: relative;
+  left: 50%;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

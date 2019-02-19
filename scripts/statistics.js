@@ -1,3 +1,95 @@
+let memberList;
+
+const loadJsonAndCreateTable = () => {
+  if (window.location.href.includes("senate.html")) {
+    //call getData function
+    getData("https://api.propublica.org/congress/v1/115/senate/members.json", "kBfQKxtZzIQKC80wlPEvDUhKAFxVlBU63svN3B8O").then((data) => {
+      memberList = data.results[0].members;
+
+      setStatisticsValues(memberList, statistics.partys);
+
+      //Last object in the array
+      let allPartysStatistics = statistics.partys[statistics.partys.length - 1]
+      // Top members whit most missed votes
+      let topMembersMissedVotes = allPartysStatistics.mostMissedVotesMembers;
+
+      // Top members whit lest missed votes
+      let topMembersVotes = allPartysStatistics.leastMissedVotesMembers;
+
+      // Top members most loyal
+      let topMembersMostLoyal = allPartysStatistics.mostLoyalMembers;
+
+      // Top members least Loyal
+      let topMembersLessLoyal = allPartysStatistics.leastLoyalMembers;
+
+      createTable(statistics.partys, atGlanceTableTitles, atGlanceTableKeys, table1);
+
+      if (window.location.href.includes("party_loyalty_senate.html") || document.URL.includes("party_loyalty_house.html")) {
+        //Create Least Loyal Table
+        createTable(topMembersLessLoyal, loyalTableTitles, loyalTableKeys, table2);
+
+        //Create Most Loyal Table
+        createTable(topMembersMostLoyal, loyalTableTitles, loyalTableKeys, table3);
+
+      } else {
+        //Create Least Engaged Table
+        createTable(topMembersMissedVotes, engagedTableTitles, engagedTableKeys, table2);
+
+        //Create Most Engaged Table
+        createTable(topMembersVotes, engagedTableTitles, engagedTableKeys, table3);
+      }
+      let myDivsTables = Array.from(document.getElementsByClassName("loader"));
+      for (myDiv of myDivsTables) {
+        myDiv.classList.remove("loader");
+      }
+      changeGridRowOnLongest(table2, table3, 6);
+    });
+
+  } else {
+    getData("https://api.propublica.org/congress/v1/115/house/members.json", "kBfQKxtZzIQKC80wlPEvDUhKAFxVlBU63svN3B8O").then((data) => {
+      memberList = data.results[0].members;
+
+      setStatisticsValues(memberList, statistics.partys);
+
+      //Last object in the array
+      let allPartysStatistics = statistics.partys[statistics.partys.length - 1]
+      // Top members whit most missed votes
+      let topMembersMissedVotes = allPartysStatistics.mostMissedVotesMembers;
+
+      // Top members whit lest missed votes
+      let topMembersVotes = allPartysStatistics.leastMissedVotesMembers;
+
+      // Top members most loyal
+      let topMembersMostLoyal = allPartysStatistics.mostLoyalMembers;
+
+      // Top members least Loyal
+      let topMembersLessLoyal = allPartysStatistics.leastLoyalMembers;
+
+      createTable(statistics.partys, atGlanceTableTitles, atGlanceTableKeys, table1);
+
+      if (window.location.href.includes("party_loyalty_senate.html") || document.URL.includes("party_loyalty_house.html")) {
+        //Create Least Loyal Table
+        createTable(topMembersLessLoyal, loyalTableTitles, loyalTableKeys, table2);
+
+        //Create Most Loyal Table
+        createTable(topMembersMostLoyal, loyalTableTitles, loyalTableKeys, table3);
+
+      } else {
+        //Create Least Engaged Table
+        createTable(topMembersMissedVotes, engagedTableTitles, engagedTableKeys, table2);
+
+        //Create Most Engaged Table
+        createTable(topMembersVotes, engagedTableTitles, engagedTableKeys, table3);
+      }
+      let myDivsTables = Array.from(document.getElementsByClassName("loader"));
+      for (myDiv of myDivsTables) {
+        myDiv.classList.remove("loader");
+      }
+      changeGridRowOnLongest(table2, table3, 6);
+    });
+  }
+}
+
 /////////////Statistics///////////
 
 let statistics = {
@@ -134,7 +226,7 @@ const orderMembersByKeyValue = (membersArr, key) => {
 
 const topOrLowestMembers = (membersArr, percent, firstOrLast, key) => {
   let membersToGet = 0;
-  if (membersArr.length < 10){
+  if (membersArr.length < 10) {
     membersToGet = 1;
   } else {
     membersToGet = Math.round(membersArr.length * (percent / 100));
@@ -153,12 +245,14 @@ const topOrLowestMembers = (membersArr, percent, firstOrLast, key) => {
 };
 
 const changeGridRowOnLongest = (element1, element2, rowEnd) => {
-  const parentDiv1 = element1.parentNode;
-  let parentDiv2 = element2.parentNode;
-  if (element1.offsetHeight === element2.offsetHeight){
+  const parentDiv1 = element1.parentNode.parentNode;
+  let parentDiv2 = element2.parentNode.parentNode;
+  console.log("Table2  " + element1.offsetHeight);
+  console.log("Table3  " +element2.offsetHeight);
+  if (element1.offsetHeight === element2.offsetHeight) {
     parentDiv1.style.gridRow = `${rowEnd - 1}/${rowEnd};`
     parentDiv2.style.gridRow = `${rowEnd - 1}/${rowEnd};`
-  } else if (element1.offsetHeight > element2.offsetHeight){
+  } else if (element1.offsetHeight > element2.offsetHeight) {
     parentDiv2.style.gridRow = `${rowEnd - 1}/${rowEnd}`;
     rowEnd++;
     parentDiv1.style.gridRow = `${rowEnd - 2}/${rowEnd}`;
@@ -168,11 +262,11 @@ const changeGridRowOnLongest = (element1, element2, rowEnd) => {
     parentDiv2.style.gridRow = `${rowEnd - 2}/${rowEnd}`;
   }
 
-    while(parentDiv2.nextElementSibling != null){
-      rowEnd++;
-      parentDiv2.nextElementSibling.style.gridRow = `${rowEnd-1}/${rowEnd}`;
-      parentDiv2 = parentDiv2.nextElementSibling;
-    }
+  while (parentDiv2.nextElementSibling != null) {
+    rowEnd++;
+    parentDiv2.nextElementSibling.style.gridRow = `${rowEnd-1}/${rowEnd}`;
+    parentDiv2 = parentDiv2.nextElementSibling;
+  }
 };
 
 const setStatisticsValues = (membersArr, statisticsByPartyArr) => {
@@ -204,7 +298,6 @@ const setStatisticsValues = (membersArr, statisticsByPartyArr) => {
         membersArrayByParty.splice(membersArrayByParty.indexOf(member), 1);
       }
     }
-    console.log(membersArrayByParty);
 
     element.averageVoteParty = votingPartyAverage(membersArrayByParty, party) + "%";
     element.leastMissedVotesMembers = topOrLowestMembers(orderMembersByKeyValue(membersArrayByParty, "missed_votes_pct"), 10, "first", "missed_votes_pct");
@@ -234,49 +327,9 @@ const loyalTableTitles = ["Name", "No. Party Votes", "% Party Votes"];
 ///lOYAL TABLE///   Array with our Keys from JSON
 const loyalTableKeys = ["first_name", "middle_name", "last_name", "total_votes", "votes_with_party_pct"];
 
-// Set values for statistics onject
-console.log(memberList);
-setStatisticsValues(memberList, statistics.partys);
-
-//Last object in the array
-let allPartysStatistics = statistics.partys[statistics.partys.length - 1]
-// Top members whit most missed votes
-let topMembersMissedVotes = allPartysStatistics.mostMissedVotesMembers;
-
-// Top members whit lest missed votes
-let topMembersVotes = allPartysStatistics.leastMissedVotesMembers;
-
-// Top members most loyal
-let topMembersMostLoyal = allPartysStatistics.mostLoyalMembers;
-
-// Top members least Loyal
-let topMembersLessLoyal = allPartysStatistics.leastLoyalMembers;
-
-console.log(topMembersMissedVotes);
-console.log(topMembersVotes);
-console.log(topMembersMostLoyal);
-console.log(topMembersLessLoyal);
-
 let table1 = document.getElementById("table1");
 let table2 = document.getElementById("table2");
 let table3 = document.getElementById("table3");
-
-//Create glance table
-createTable(statistics.partys, atGlanceTableTitles, atGlanceTableKeys, table1);
-
-if (window.location.href.includes("party_loyalty_senate.html") || document.URL.includes("party_loyalty_house.html")) {
-  console.log("im here");
-  //Create Least Loyal Table
-  createTable(topMembersLessLoyal, loyalTableTitles, loyalTableKeys, table2);
-
-  //Create Most Loyal Table
-  createTable(topMembersMostLoyal, loyalTableTitles, loyalTableKeys, table3);
-
-} else {
-  //Create Least Engaged Table
-  createTable(topMembersMissedVotes, engagedTableTitles, engagedTableKeys, table2);
-
-  //Create Most Engaged Table
-  createTable(topMembersVotes, engagedTableTitles, engagedTableKeys, table3);
-}
+loadJsonAndCreateTable();
 changeGridRowOnLongest(table2, table3, 6);
+console.log("hey");

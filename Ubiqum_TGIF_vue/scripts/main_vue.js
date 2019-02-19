@@ -59,16 +59,21 @@
 //
 // });
 
+ const test = () => {
+   console.log("Im the function outside vue instance");
+ }
+
 const myVue = new Vue({
   el: "#myVueElement",
   data: {
-    showTable: true,
-    membersConst: senateData.results[0].members,
-    membersList: senateData.results[0].members,
-    stateArray: null,
+    showTable: false,
+    isLoaded: false,
+    membersConst: [],
+    membersList: [],
+    stateArray: [],
     mainTableTitles: ["Name", "Party", "State", "Years in Oficce", "% Votes w/ Party"],
     mainTableKeys: ["first_name", "middle_name", "last_name", "party", "state", "seniority", "votes_with_party_pct"],
-    tableKeysMod: null,
+    tableKeysMod: [],
     partySelected: [],
     stateSelected: "all",
     checkboxData: [{
@@ -125,7 +130,7 @@ const myVue = new Vue({
       }
     },
 
-    filterByParty(membersArr, partyArr){
+    filterByParty(membersArr, partyArr) {
       if (partyArr.length) {
         let filterArr = [];
         for (party of partyArr) {
@@ -140,20 +145,49 @@ const myVue = new Vue({
       return state === "all" ? membersArr : membersArr.filter(member => member.state === state);
     },
 
-    filterAll(membersArr){
+    filterAll(membersArr) {
       this.showTable = false;
       let membersFilter = this.filterByParty(membersArr, this.partySelected);
       this.membersList = this.filterByState(membersFilter, this.stateSelected);
       this.showTable = true;
     },
+    async getData(jsonURL, apiKey) {
+      //await the response of the fetch call
+      let response = await fetch(jsonURL, {
+        method: "GET",
+        dataType: 'json',
+        headers: {
+          "X-API-Key": apiKey
+        }
+      });
+      //proceed once the first promise is resolved.
+      let data = await response.json()
+      //proceed only when the second promise is resolved
+      return data;
+    }
   },
 
   beforeMount() {
     this.tableKeysMod = this.modKeysArr(this.mainTableKeys);
+    if (window.location.href.includes("senate")) {
+      this.getData("https://api.propublica.org/congress/v1/115/senate/members.json", "kBfQKxtZzIQKC80wlPEvDUhKAFxVlBU63svN3B8O").then((data) => {
+        this.membersConst = data.results[0].members;
+        this.membersList = this.membersConst;
+        this.showTable = true;
+        this.isLoaded = true;
+      });
+    } else {
+      this.getData("https://api.propublica.org/congress/v1/115/house/members.json", "kBfQKxtZzIQKC80wlPEvDUhKAFxVlBU63svN3B8O").then((data) => {
+        this.membersConst = data.results[0].members;
+        this.membersList = this.membersConst;
+        this.showTable = true;
+        this.isLoaded = true;
+      });
+    }
   },
 
-  created() {
-    this.getStates(this.membersList);
-  },
+  beforeUpdate() {
+    this.getStates(this.membersConst);
+  }
 
 });

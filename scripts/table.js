@@ -1,5 +1,17 @@
-//Array with all Senate Members
-//let memberList = senateData.results[0].members;
+const getData = async (jsonURL, apiKey) => {
+  //await the response of the fetch call
+  let response = await fetch(jsonURL, {
+    method: "GET",
+    dataType: 'json',
+    headers: {
+      "X-API-Key": apiKey
+    }
+  });
+  //proceed once the first promise is resolved.
+  let data = await response.json()
+  //proceed only when the second promise is resolved
+  return data;
+};
 
 /*
  *  Create a new tbody tag
@@ -238,7 +250,11 @@ const createTable = (membersArr, tableTitlesArr, keysArr, tableElement) => {
       if (variable === "first_name") {
         createTdWithLink(eval(variable), member.url, tr);
       } else {
-        createTd(eval(variable), tr);
+        if (eval(variable) === "undefined%" || eval(variable) === "null%") {
+          createTd("---", tr);
+        } else{
+          createTd(eval(variable), tr);
+        }
       }
     }
   }
