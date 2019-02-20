@@ -6,6 +6,12 @@
   font-family: 'Playfair Display', serif;
 }
 
+.table th {
+  background-color: darkgrey;
+  color: white;
+  font-size: 1.2em;
+}
+
 .allPage > div {
   background-color: whitesmoke;
   padding: 1em;

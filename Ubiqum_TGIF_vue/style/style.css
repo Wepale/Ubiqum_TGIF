@@ -6,6 +6,21 @@
   font-family: 'Playfair Display', serif;
 }
 
+[v-cloak] {
+  display: none;
+}
+
+#wrap {
+  overflow: auto;
+  max-height: 50em;
+}
+
+.table th {
+  background-color: darkgrey;
+  color: white;
+  font-size: 1.2em;
+}
+
 .allPage>div {
   background-color: whitesmoke;
   padding: 1em;
@@ -36,6 +51,11 @@ a:hover {
 
 .table th, td {
   text-align: center;
+  border: 0;
+}
+thead th {
+ position: sticky;
+ top: 0;
 }
 
 .leftPanel {
@@ -140,6 +160,12 @@ a:hover {
   justify-content: flex-start;
   width: 50%;
 }
+/* .selectColumn1 {
+  display: grid;
+  grid-row-gap: 1em;
+  grid-template-columns: 3fr;
+  align-content: flex-start;
+} */
 
 .party {
   width: 17%;
@@ -156,45 +182,27 @@ input {
   display: none;
 }
 
-/* .label {
+input+label {
   background: #6c757d;
-  border: 3px solid black;
+  border: 2px solid black;
   border-radius: 4px;
   color: white;
-  padding: 2%;
-} */
-
-input+label{
-  background: #6c757d;
-  border: 3px solid black;
-  border-radius: 4px;
-  color: white;
-  padding: 2%;
+  padding: 0.4em;
 }
 
 input+label:hover {
   background: silver;
-  border: 3px solid black;
+  border: 2px solid black;
 }
 
 input:checked+label {
   background: #d49f34;
-  border: 3px solid black;
+  border: 2px solid black;
 }
-/* .label:hover {
-  background: grey;
-  border: 3px solid black;
-} */
-/*
-input:checked+label {
-  background: #d49f34;
-  border: 3px solid black;
-} */
 
-/* input:not(.checked):hover+label{
-  background: grey;
-  border: 3px solid black;
-} */
+.btn:not(:disabled):not(.disabled) {
+  border: 2px solid black;
+}
 
 .state {
   align-items: baseline;
@@ -214,6 +222,8 @@ input:checked+label {
   outline: none;
   font-size: 15px;
   transition: 2s;
+  text-align: center;
+  padding: 0;
 }
 
 .active, .accordion:hover {
@@ -221,13 +231,38 @@ input:checked+label {
 }
 
 .panel {
-  padding: 0 18px;
+  padding: 0px 0px;
   background-color: white;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.8s ease-out;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 0.5em;
+  align-items: center;
+  justify-items: center;
+
 }
 
 .createUserTable {
   margin-top: 25%;
+}
+
+.loader {
+  /* overflow: hidden; */
+  border: 16px solid #a9a9a9;
+  border-radius: 50%;
+  border-top: 16px solid  #d49f34;
+  width: 120px;
+  height: 120px;
+  z-index: 500000000;
+  animation: spin 2s linear infinite;
+  vertical-align: middle;
+  position: relative;
+  left: 43%;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

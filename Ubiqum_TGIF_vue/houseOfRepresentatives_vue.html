@@ -13,7 +13,7 @@
 
 <body>
 
-  <div id="myVueElement" class="allPage">
+  <div id="myVueElement" class="allPage" v-cloak>
     <div class="leftPanel">
       <div class="selectColumn1">
         <button id="accordion" class="accordion" onclick="makeAccordion()">Read More</button>
@@ -110,8 +110,8 @@
       </div>
     </div>
     <div class="mainTable">
-      <div class="makeRow">
-        <div class="makeRow select">
+      <div class="makeRow" v-bind:class="{loader : !isLoaded}">
+        <div v-if="isLoaded" class="makeRow select">
           <div class="party">
             <p>Select by Party:</p>
           </div>
@@ -123,7 +123,7 @@
           </div>
         </div>
 
-        <div class="makeRow state">
+        <div v-if="isLoaded" class="makeRow state">
           <p>Filter by state:</p>
           <div class="dropdown show">
             <select class="btn btn-secondary" v-model="stateSelected" @change="filterAll(membersConst)" ref="state">
@@ -134,9 +134,8 @@
 
         </div>
       </div>
-      <p>{{ partySelected }}</p>
 
-      <div v-if="showTable">
+      <div v-if="showTable" id="wrap">
         <table id="table1" class="table table-striped table-hover">
           <thead>
             <tr>
@@ -149,7 +148,6 @@
             </tr>
           </tbody>
         </table>
-        <!-- <tablecreation></tablecreation> -->
       </div>
     </div>
 

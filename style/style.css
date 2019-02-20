@@ -9,6 +9,7 @@
 #wrap {
   overflow: auto;
   max-height: 50em;
+  max-width: 80em;
 }
 
 .table th {
@@ -49,6 +50,27 @@ a:hover {
   text-align: center;
 }
 
+thead th {
+ position: sticky;
+ top: 0;
+}
+/* tr td:nth-of-type(1) {
+   position: sticky;
+   left: 0;
+   z-index: 1;
+   text-align: left;
+}
+tr:nth-child(odd) {
+  background: #f2f2f2;
+}
+tr:nth-child(even) {
+  background: #ffffff;
+}
+tr th:nth-of-type(1) {
+   left: 0;
+   z-index: 100;
+   text-align: left;
+} */
 .leftPanel {
   grid-column: 2/3;
   grid-row: 4/5;
@@ -167,13 +189,6 @@ input {
   display: none;
 }
 
-/* .label {
-  background: #6c757d;
-  border: 3px solid black;
-  border-radius: 4px;
-  color: white;
-  padding: 2%;
-} */
 input+label {
   background: #6c757d;
   border: 2px solid black;
@@ -215,7 +230,7 @@ input:checked+label {
   font-size: 15px;
   transition: 2s;
   text-align: center;
-  padding: 0em;
+  padding: 0;
 }
 
 .active, .accordion:hover {
@@ -255,7 +270,7 @@ select:hover {
   animation: spin 2s linear infinite;
   vertical-align: middle;
   position: relative;
-  left: 50%;
+  left: 43%;
 }
 
 @keyframes spin {

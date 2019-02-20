@@ -70,6 +70,19 @@ const loadJsonAndCreateTable = () => {
       for (myDiv of myDivsTables) {
         myDiv.classList.remove("loader");
       }
+      // var divTable = document.getElementById('wrap').addEventListener("scroll", function() {
+      // for (var i = 1; i < table1.rows.length; i++) {
+      //    var firstCol = table1.rows[i].cells[0]; //first column
+      //    var translate = "translateX("+this.scrollLeft+"px)";
+      //    console.log(this.scrollLeft);
+      //    firstCol.style.transform = translate;
+      //    console.log(firstCol.style.transform);
+      //    var translate = "translate(0,"+this.scrollTop+"px)";
+      //    this.querySelector("thead").style.transform = translate;
+      // }
+      // // console.log(this.scrollLeft);
+      // // console.log(firstCol.style.transform);
+      // });
     });
 
   } else {
@@ -206,4 +219,4 @@ document.getElementById("wrap").addEventListener("scroll", function() {
    this.querySelector("thead").style.transform = translate;
 });
 }
-makeFixedHeader();
+// makeFixedHeader();
