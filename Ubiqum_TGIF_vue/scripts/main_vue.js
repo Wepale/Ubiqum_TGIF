@@ -204,20 +204,12 @@ const myVue = new Vue({
       if (array1.length !== array2.length) {
         areEquals = false;
       } else {
-        array1.forEach((element, index) => {
+        for(let index = 0; index < array1.length; index++) {
           if (JSON.stringify(array1[index]) !== JSON.stringify(array2[index])) {
             areEquals = false;
-              // break;
+            break;
           }
-        });
-
-        // for(let index = 0; i < array1.length; i++)
-        // for ([index, member] of array1.entries()) {
-        //   if (JSON.stringify(array1[index]) !== JSON.stringify(array2[index])) {
-        //     areEquals = false;
-        //     break;
-        //   }
-        // }
+        }
       }
       return areEquals;
     },
