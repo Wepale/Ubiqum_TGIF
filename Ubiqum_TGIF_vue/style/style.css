@@ -11,7 +11,7 @@
 }
 
 #wrap {
-  overflow: auto;
+  overflow: auto;  
   max-height: 50em;
 }
 
@@ -19,6 +19,15 @@
   background-color: darkgrey;
   color: white;
   font-size: 1.2em;
+  vertical-align: middle;
+}
+
+.table thead th {
+  vertical-align: middle;
+}
+
+.table td {
+  vertical-align: middle;
 }
 
 .allPage>div {
@@ -53,9 +62,10 @@ a:hover {
   text-align: center;
   border: 0;
 }
+
 thead th {
- position: sticky;
- top: 0;
+  position: sticky;
+  top: 0;
 }
 
 .leftPanel {
@@ -96,10 +106,14 @@ thead th {
   font-weight: bold;
   text-shadow: 2px 2px black;
 }
+.hideThis {
+  grid-column: 2/4;
+  grid-row: 4/5;
+}
 
 .mainTable {
   grid-column: 3/4;
-  grid-row: 4/6;
+  grid-row: 4/6
 }
 
 .footer {
@@ -160,13 +174,13 @@ thead th {
   justify-content: flex-start;
   width: 50%;
 }
+
 /* .selectColumn1 {
   display: grid;
   grid-row-gap: 1em;
   grid-template-columns: 3fr;
   align-content: flex-start;
 } */
-
 .party {
   width: 17%;
 }
@@ -208,7 +222,7 @@ input:checked+label {
   align-items: baseline;
   display: flex;
   justify-content: space-around;
-  width: 14%;
+  width: 19%;
 }
 
 .accordion {
@@ -223,15 +237,22 @@ input:checked+label {
   font-size: 15px;
   transition: 2s;
   text-align: center;
-  padding: 0;
+  font-size: large;
 }
 
-.active, .accordion:hover {
+.accordion:disabled {
+  opacity: 0.6;
+  background-color: black;
+  cursor: not-allowed;
+}
+
+.active, .accordion:hover:enabled {
   background-color: #ccc;
 }
 
 .panel {
   padding: 0px 0px;
+  margin-top: 10px;
   background-color: white;
   max-height: 0;
   overflow: hidden;
@@ -241,7 +262,14 @@ input:checked+label {
   grid-gap: 0.5em;
   align-items: center;
   justify-items: center;
+}
 
+.indexPanel {
+  grid-template-columns: 1fr;
+}
+
+.text {
+  padding: 1em;
 }
 
 .createUserTable {
@@ -249,10 +277,9 @@ input:checked+label {
 }
 
 .loader {
-  /* overflow: hidden; */
   border: 16px solid #a9a9a9;
   border-radius: 50%;
-  border-top: 16px solid  #d49f34;
+  border-top: 16px solid #d49f34;
   width: 120px;
   height: 120px;
   z-index: 500000000;
@@ -263,6 +290,43 @@ input:checked+label {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
+
+.sendDataButton {
+  max-height: 200px;
+  transition: 2s;
+  overflow: hidden;
+}
+
+.hide {
+  overflow: hidden;
+  max-height: 0;
+}
+
+.refreshIcon {
+  color: #d49f34;
+  position: relative;
+  top: 0.15em;
+}
+
+.iconAnimation{
+  animation: spin 1s linear
+}
+
+option:hover {
+  box-shadow: 0 0 10px 100px black inset;
+}
+ select:hover{
+   box-shadow: 0 0 10px 100px black inset;
+ }
+
+ .noResults {
+   text-align: center;
+ }

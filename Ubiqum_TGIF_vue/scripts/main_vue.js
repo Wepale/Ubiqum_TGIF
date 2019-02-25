@@ -1,148 +1,25 @@
-// Vue.component('checkboxfilter', {
-//   template: `<input type="checkbox" class="input" name="party" :id="item.relatedChekBox" onclick="filterAll(memberList)" autocomplete="off" :value="item.value">
-//             <label :for="item.relatedChekBox" class="label">{{ item.party }}</label>`
-// });
-
-
-//
-// Vue.component("accordionradiobuttons", {
-//   prop: ['value'],
-//   template: `   <div class="selectColumn1">
-//                   <div>
-//                   <button class="accordion" @click="makeAccordion">{{ column }}</button>
-//                   <div ref="myPanel" class="panel">
-//                   <div v-for="item of radioData">
-//                       <input type="radio" class="input" :id="item.id" :value="value"
-//       v-on:change="$emit('input', $event.target.checked)" autocomplete="off">
-//                       <label :for="item.id" class="label">{{ item.text }}</label>
-//                   </div>
-//                     </div>
-//                   </div>
-//                   </div>`,
-//   data: function(){
-//     return{
-//       radioData: [
-//         {
-//           id: "button1",
-//           text: "Name",
-//           myKey: ["first_name", "middle_name", "last_name"],
-//         },
-//         {
-//           id: "button2",
-//           text: "Party",
-//           myKey: "party",
-//         },
-//         {
-//           id: "button3",
-//           text: "State",
-//           myKey: "state",
-//         },
-//         {
-//           id: "button4",
-//           text: "Years in Oficce",
-//           myKey: "seniority",
-//         },
-//         {
-//           id: "button5",
-//           text: "% Votes w/ Party",
-//           myKey: "votes_with_party_pct",
-//         },
-//         {
-//           id: "button6",
-//           text: "Title",
-//           myKey: "title",
-//         },
-//         {
-//           id: "button6",
-//           text: "Date Of Birth",
-//           myKey: "date_of_birth"
-//         },
-//         {
-//           id: "button7",
-//           text: "Office",
-//           myKey: "office"
-//         },
-//         {
-//           id: "button8",
-//           text: "Nº Phone",
-//           myKey: "phone"
-//         },
-//         {
-//           id: "button9",
-//           text: "Nº Fax",
-//           myKey: "fax"
-//         },
-//         {
-//           id: "button10",
-//           text: "Next Election",
-//           myKey: "next_election"
-//         },
-//       ],
-//       column: "Select Column",
-//       dynamicID: 0,
-//       membersList: senateData.results[0].members,
-//       keysList:[],
-//       titleList:[],
-//       radioSelected:[],
-//       isShow: false,
-//     }
-//   },
-//   methods: {
-//     makeAccordion() {
-//       this.isShow = !this.isShow;
-//       let panel = this.$refs.myPanel;
-//       console.log(panel);
-//       if (panel.style.maxHeight) {
-//         panel.style.maxHeight = null;
-//         setTimeout(function(){panel.style.padding = "0px"} , 700)
-//       } else {
-//         panel.style.padding = "10px";
-//         panel.style.maxHeight = `${panel.scrollHeight}px`;
-//       }
-//     },
-//
-//     makeUserTable(){
-//       this.keyList = this.radioSelected,
-//       this.$refs
-//     },
-//     changeColumnNumber(){
-//       for (let i = 0; i< this.radioData; i++) {
-//         this.column = `${this.column} ${i+1}`
-//       }
-//     },
-//     handleInput (e) {
-//       this.$emit('change', this.content)
-//     }
-//
-//   },
-//   created(){
-//     this.changeColumnNumber();
-//   },
-//   beforeUpdate(){
-//     console.log(this.radioSelected);
-//   }
-//
-// });
-
-function test(variable) {
-  console.log("Im the function outside vue instance");
-  console.log(variable);
-}
-
 const myVue = new Vue({
   el: "#myVueElement",
   data: {
     showTable: false,
     isLoaded: false,
-    membersConst: [],
+    isHide: true,
+    animation: false,
+    noResults: false,
+    MEMBERS: [],
     membersList: [],
+    actualMembers: [],
     stateArray: [],
-    mainTableTitles: ["Name", "Party", "State", "Years in Oficce", "% Votes w/ Party"],
-    mainTableKeys: ["first_name", "middle_name", "last_name", "party", "state", "seniority", "votes_with_party_pct"],
+    MAIN_TABLE_TITLES: ["Name", "Party", "State", "Years in Oficce", "% Votes w/ Party"],
+    MAIN_TABLE_KEYS: ["first_name", "party", "state", "seniority", "votes_with_party_pct"],
+    tableTitlesMod: [],
     tableKeysMod: [],
     partySelected: [],
     checkSelected: [],
     stateSelected: "all",
+    myWindows: null,
+    disable: true,
+    buttonText: "Select data to activate",
     checkboxData: [{
         party: "Republican",
         value: "R",
@@ -160,60 +37,66 @@ const myVue = new Vue({
       },
     ],
 
-    radioData: [{
+    checkData: [{
+
         id: "button1",
-        text: "Name",
-        myKey: ["first_name", "middle_name", "last_name"],
+        text: "Party",
+        value: "party",
+        type: "string"
       },
       {
         id: "button2",
-        text: "Party",
-        myKey: "party",
+        text: "State",
+        value: "state",
+        type: "string"
       },
       {
         id: "button3",
-        text: "State",
-        myKey: "state",
+        text: "Years in Oficce",
+        value: "seniority",
+        type: "number"
       },
       {
         id: "button4",
-        text: "Years in Oficce",
-        myKey: "seniority",
+        text: "% Votes w/ Party",
+        value: "votes_with_party_pct",
+        type: "number"
       },
       {
         id: "button5",
-        text: "% Votes w/ Party",
-        myKey: "votes_with_party_pct",
+        text: "Title",
+        value: "title",
+        type: "string"
       },
       {
         id: "button6",
-        text: "Title",
-        myKey: "title",
+        text: "Date Of Birth",
+        value: "date_of_birth",
+        type: "number"
       },
       {
         id: "button7",
-        text: "Date Of Birth",
-        myKey: "date_of_birth"
+        text: "Office",
+        value: "office",
+        type: "string"
       },
       {
         id: "button8",
-        text: "Office",
-        myKey: "office"
+        text: "Nº Phone",
+        value: "phone",
+        type: "number"
       },
       {
         id: "button9",
-        text: "Nº Phone",
-        myKey: "phone"
+        text: "Nº Fax",
+        value: "fax",
+        type: "number"
       },
       {
         id: "button10",
-        text: "Nº Fax",
-        myKey: "fax"
-      },
-      {
-        id: "button11",
         text: "Next Election",
-        myKey: "next_election"
+        value: "next_election",
+        type: "number"
       },
     ],
 
@@ -222,23 +105,14 @@ const myVue = new Vue({
   methods: {
 
     getStates(membersArr) {
-      const states = [];
-      for (member of membersArr) {
-        if (!states.includes(member.state)) {
-          states.push(member.state);
-        }
-      }
-      this.stateArray = states.sort();
+      this.stateArray = [...new Set(membersArr.map(member => member.state))].sort();
+      //The Set object lets you store UNIQUE values of any type, whether primitive values or object references.
     },
 
     joinName(member) {
-      const nameData = Object.keys(member).filter(data => data === "first_name" || data === "middle_name" || data === "last_name");
       let completeName = "";
-      for (name of nameData) {
-        if (member[name]) {
-          completeName = `${completeName} ${member[name]}`
-        }
-      }
+      Object.keys(member).filter(key => key === "first_name" || key === "middle_name" || key === "last_name")
+        .forEach(name => member[name] ? completeName = `${completeName} ${member[name]}` : null);
       return completeName;
     },
 
@@ -247,22 +121,11 @@ const myVue = new Vue({
     },
 
     checkNullValue(value) {
-      if (value) {
-        return value;
-      } else {
-        return "---";
-      }
+      return value ? value : "---"
     },
 
     filterByParty(membersArr, partyArr) {
-      if (partyArr.length) {
-        let filterArr = [];
-        for (party of partyArr) {
-          filterArr.push(...membersArr.filter(member => member.party === party));
-        }
-        return filterArr;
-      }
-      return membersArr;
+      return partyArr.length ? partyArr.flatMap(party => membersArr.filter(member => member.party === party)) : membersArr
     },
 
     filterByState(membersArr, state) {
@@ -270,66 +133,151 @@ const myVue = new Vue({
     },
 
     filterAll(membersArr) {
-      this.showTable = false;
-      let membersFilter = this.filterByParty(membersArr, this.partySelected);
-      this.membersList = this.filterByState(membersFilter, this.stateSelected);
-      this.showTable = true;
+      this.actualMembers = this.membersList = this.filterByState(this.filterByParty(membersArr, this.partySelected), this.stateSelected);
     },
+
     makeAccordion() {
       this.isShow = !this.isShow;
       let panel = this.$refs.myPanel;
-      console.log(panel);
       if (panel.style.maxHeight) {
         panel.style.maxHeight = null;
-        setTimeout(function() {
-          panel.style.padding = "0px"
-        }, 700)
+        setTimeout(() => {
+          myVue.isHide = true;
+        }, 640);
       } else {
-        panel.style.padding = "10px";
         panel.style.maxHeight = `${panel.scrollHeight}px`;
+        setTimeout(() => {
+          myVue.isHide = false;
+        }, 1000);
       }
     },
 
-    async getData(jsonURL, apiKey) {
+    makeUserTable() {
+      let infoSelected = this.checkSelected.map(checkBoxValue => this.checkData.find(checkBox => checkBox.value === checkBoxValue).text);
+      this.tableTitlesMod = ["Name", ...infoSelected];
+      this.tableKeysMod = ["first_name" , ...this.checkSelected];
+    },
+
+    makeTableAndAccordion() {
+      this.makeAccordion();
+      this.makeUserTable();
+    },
+
+    reload() {
+      this.showTable = false;
+      this.showTable = true;
+    },
+
+    refresh() {
+      this.membersList = this.actualMembers = this.MEMBERS;
+      this.tableKeysMod = this.MAIN_TABLE_KEYS;
+      this.tableTitlesMod = this.MAIN_TABLE_TITLES;
+      this.checkSelected = [];
+      this.partySelected = [];
+      this.stateSelected = "all";
+      this.animation = true;
+      setTimeout(() => {
+        myVue.animation = false;
+      }, 1000);
+    },
+
+    openWindow(url) {
+      let top = document.documentElement.clientHeight;
+      let options = `menubar=no, top=${top / 4}, left=900, width=800, height=500`;
+      if (this.myWindows) {
+        this.myWindows.close();
+        this.myWindows = window.open(url, "_blank", options);
+      } else {
+        this.myWindows = window.open(url, "_blank", options);
+      }
+    },
+    orderMembersByKeyValue(membersArr, key, dataType = "number") {
+      if (dataType === "number") {
+        return membersArr.slice().sort((a, b) => parseFloat(a[key]) - parseFloat(b[key]));
+      } else {
+        return membersArr.slice().sort((a, b) => (a[key] > b[key]));
+      }
+    },
+
+    areEquals(array1, array2) {
+      let areEquals = true;
+      if (array1.length !== array2.length) {
+        areEquals = false;
+      } else {
+        array1.forEach((element, index) => {
+          if (JSON.stringify(array1[index]) !== JSON.stringify(array2[index])) {
+            areEquals = false;
+              // break;
+          }
+        });
+
+        // for(let index = 0; i < array1.length; i++)
+        // for ([index, member] of array1.entries()) {
+        //   if (JSON.stringify(array1[index]) !== JSON.stringify(array2[index])) {
+        //     areEquals = false;
+        //     break;
+        //   }
+        // }
+      }
+      return areEquals;
+    },
+
+    sortByColumn(event) {
+      let textcol = event.target.innerHTML;
+      let item = this.checkData.find(item => item.text === textcol)
+      let sortMembers = this.orderMembersByKeyValue(this.actualMembers, item.value, item.type);
+      let reverseSortMembers = sortMembers.slice().reverse();
+
+      if (this.areEquals(this.membersList, sortMembers)) { //Is already ordered from lowest to highest. We have to order from higuest to lowest
+        this.membersList = reverseSortMembers;
+      } else if (this.areEquals(this.membersList, reverseSortMembers)) { //Is already ordered from highest to lowest. We have to get back to default order
+        this.membersList = this.actualMembers;
+      } else { //It is not order in any way, we order from lowest to higuest
+        this.membersList = sortMembers;
+      }
+    },
+
+    noResultsOnTable() {
+      this.membersList.length ? this.noResults = false : this.noResults = true;
+    },
+
+
+    async getData(chamber) {
       //await the response of the fetch call
-      let response = await fetch(jsonURL, {
+      let response = await fetch(`https://api.propublica.org/congress/v1/115/${chamber}/members.json`, {
         method: "GET",
         dataType: 'json',
         headers: {
-          "X-API-Key": apiKey
+          "X-API-Key": "kBfQKxtZzIQKC80wlPEvDUhKAFxVlBU63svN3B8O"
         }
       });
       //proceed once the first promise is resolved.
       let data = await response.json()
       //proceed only when the second promise is resolved
-      return data;
+      this.tableKeysMod = this.MAIN_TABLE_KEYS;
+      this.MEMBERS = data.results[0].members;
+      this.membersList = this.actualMembers = this.MEMBERS;
+      this.getStates(this.MEMBERS);
+      this.isLoaded = true;
+      this.showTable = true;
+    },
+  },
+
+  computed: {
+    changeButtonText() {
+      return this.checkSelected.length < 1 ? "Select data to activate" : "Create Table";
     }
   },
 
   beforeMount() {
-    this.tableKeysMod = this.modKeysArr(this.mainTableKeys);
-    if (window.location.href.includes("senate")) {
-      this.getData("https://api.propublica.org/congress/v1/115/senate/members.json", "kBfQKxtZzIQKC80wlPEvDUhKAFxVlBU63svN3B8O").then((data) => {
-        this.membersConst = data.results[0].members;
-        this.membersList = this.membersConst;
-        this.isLoaded = true;
-        this.showTable = true;
-      });
-    } else {
-      this.getData("https://api.propublica.org/congress/v1/115/house/members.json", "kBfQKxtZzIQKC80wlPEvDUhKAFxVlBU63svN3B8O").then((data) => {
-        this.membersConst = data.results[0].members;
-        this.membersList = this.membersConst;
-        this.isLoaded = true;
-        this.showTable = true;
-      });
-    }
+    window.location.href.includes("senate") ? this.getData("senate") : this.getData("house");
   },
 
   beforeUpdate() {
-    this.getStates(this.membersConst);
-    test(this.showTable);
-    console.log(this.checkSelected);
-    console.log(this.partySelected);
+    this.noResultsOnTable();
   },
+  created() {
+    this.tableTitlesMod = this.MAIN_TABLE_TITLES;
+  }
 
 });
